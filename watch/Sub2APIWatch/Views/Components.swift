@@ -111,9 +111,23 @@ struct RefreshButton: View {
 
     var body: some View {
         Button { Task { await store.refresh() } } label: {
-            if store.isRefreshing { ProgressView().controlSize(.small) }
-            else { Image(systemName: "arrow.clockwise") }
+            Group {
+                if store.isRefreshing {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .controlSize(.small)
+                        .tint(WatchStyle.green)
+                } else {
+                    Image(systemName: "arrow.clockwise")
+                        .symbolRenderingMode(.monochrome)
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(WatchStyle.green)
+                }
+            }
+            .frame(width: 28, height: 28)
+            .contentShape(Circle())
         }
+        .buttonStyle(.plain)
         .disabled(store.isRefreshing || !store.isConfigured)
         .accessibilityLabel(store.isRefreshing ? "正在刷新" : "刷新数据")
     }
