@@ -1,0 +1,205 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B00000000000000000000001 /* Sub2APIWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000001; };
+		B00000000000000000000002 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000002; };
+		B00000000000000000000003 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000003; };
+		B00000000000000000000004 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000004; };
+		B00000000000000000000005 /* WatchStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000005; };
+		B00000000000000000000006 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000006; };
+		B00000000000000000000007 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000007; };
+		B00000000000000000000008 /* UsageViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000008; };
+		B00000000000000000000009 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000009; };
+		B0000000000000000000000A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000A; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F00000000000000000000001 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sub2APIWatchApp.swift; sourceTree = "<group>"; };
+		F00000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		F00000000000000000000003 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		F00000000000000000000004 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		F00000000000000000000005 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchStore.swift; sourceTree = "<group>"; };
+		F00000000000000000000006 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		F00000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F00000000000000000000008 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageViews.swift; sourceTree = "<group>"; };
+		F00000000000000000000009 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		F0000000000000000000000A = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F0000000000000000000000B = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F0000000000000000000000C = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sub2APIWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		A00000000000000000000001 = {
+			isa = PBXGroup;
+			children = (A00000000000000000000002, A00000000000000000000003,);
+			sourceTree = "<group>";
+		};
+		A00000000000000000000002 = {
+			isa = PBXGroup;
+			children = (
+				F00000000000000000000001, F00000000000000000000002,
+				F00000000000000000000005,
+				A0000000000000000000000C, A0000000000000000000000D,
+				F0000000000000000000000A,
+				F0000000000000000000000B,
+			);
+			path = Sub2APIWatch;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000003 = {
+			isa = PBXGroup;
+			children = (F0000000000000000000000C,);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A0000000000000000000000C = {
+			isa = PBXGroup;
+			children = (F00000000000000000000006, F00000000000000000000007, F00000000000000000000008, F00000000000000000000009,);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A0000000000000000000000D = {
+			isa = PBXGroup;
+			children = (F00000000000000000000003, F00000000000000000000004,);
+			path = Services;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A00000000000000000000004 = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A0000000000000000000000B;
+			buildPhases = (A00000000000000000000006, A00000000000000000000007, A00000000000000000000008,);
+			buildRules = ();
+			dependencies = ();
+			name = Sub2APIWatch;
+			productName = Sub2APIWatch;
+			productReference = F0000000000000000000000C;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A00000000000000000000005 = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = { A00000000000000000000004 = {CreatedOnToolsVersion = 15.0; ProvisioningStyle = Automatic; }; };
+			};
+			buildConfigurationList = A0000000000000000000000A;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = zh_CN;
+			hasScannedForEncodings = 0;
+			knownRegions = (zh_CN, en, Base,);
+			mainGroup = A00000000000000000000001;
+			productRefGroup = A00000000000000000000003;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (A00000000000000000000004,);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A00000000000000000000006 = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (B00000000000000000000001, B00000000000000000000002, B00000000000000000000003,
+				B00000000000000000000004, B00000000000000000000005, B00000000000000000000006,
+				B00000000000000000000007, B00000000000000000000008, B00000000000000000000009,);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A00000000000000000000007 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A00000000000000000000008 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (B0000000000000000000000A,); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C00000000000000000000001 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = ("DEBUG=1", "$(inherited)",);
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = watchos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		C00000000000000000000002 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				SDKROOT = watchos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		C00000000000000000000003 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sub2APIWatch/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks",);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.Sub2APIWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Debug;
+		};
+		C00000000000000000000004 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sub2APIWatch/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks",);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.Sub2APIWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A0000000000000000000000A = {isa = XCConfigurationList; buildConfigurations = (C00000000000000000000001, C00000000000000000000002,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		A0000000000000000000000B = {isa = XCConfigurationList; buildConfigurations = (C00000000000000000000003, C00000000000000000000004,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+	};
+	rootObject = A00000000000000000000005;
+}

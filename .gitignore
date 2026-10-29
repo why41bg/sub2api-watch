@@ -1,0 +1,23 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.mobileprovision
+secrets/
+
+# Node.js dependencies, builds and logs
+node_modules/
+dist/
+*.log
+
+# Xcode and macOS local files
+.DS_Store
+DerivedData/
+.build/
+.swiftpm/
+watch/build/
+xcuserdata/
+*.xcuserstate

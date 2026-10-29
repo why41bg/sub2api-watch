@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Sub2API Watch · 界面预览</title>
+  <style>
+    :root { --paper:#f3f4f0; --ink:#202820; --muted:#768073; --line:#dce1d7; --green:#c4f194; --watch-green:#b8f47d; --blue:#83bdff; --orange:#ffb66b; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; -webkit-font-smoothing:antialiased; }
+    button,input { font:inherit; }
+    button { cursor:pointer; }
+    button:focus-visible,input:focus-visible,[tabindex]:focus-visible { outline:3px solid #69964a; outline-offset:4px; }
+    button { -webkit-tap-highlight-color:transparent; }
+    svg { width:20px; height:20px; display:block; flex-shrink:0; }
+    .page { max-width:1280px; margin:auto; padding:32px 48px 42px; }
+    .masthead { display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line); padding-bottom:24px; }
+    .brand { display:flex; align-items:center; gap:10px; font-size:14px; font-weight:650; letter-spacing:.02em; }
+    .brand-icon { width:29px; height:29px; display:grid; place-items:center; border-radius:9px; color:var(--green); background:var(--ink); }
+    .brand-icon svg { width:18px; height:18px; }
+    .edition { font-size:11px; color:var(--muted); font-family:ui-monospace,monospace; letter-spacing:.1em; }
+    .intro { display:flex; align-items:flex-end; justify-content:space-between; gap:20px; padding:39px 0 32px; }
+    .eyebrow { font:10px ui-monospace,monospace; color:var(--muted); letter-spacing:.16em; margin:0 0 14px; }
+    h1 { font-size:clamp(27px,3vw,38px); letter-spacing:-1.7px; font-weight:600; margin:0 0 12px; }
+    .intro p:not(.eyebrow) { font-size:13px; color:var(--muted); margin:0; line-height:1.8; }
+    .demo-badge { display:inline-flex; align-items:center; gap:7px; white-space:nowrap; font-size:11px; border:1px solid var(--line); border-radius:30px; padding:8px 12px; background:#fafbf7; }
+    .dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:#79a855; }
+    .workspace { display:grid; grid-template-columns:195px minmax(330px,1fr) 240px; border:1px solid var(--line); border-radius:22px; overflow:hidden; background:#f8f9f5; min-height:568px; }
+    .sidebar { padding:27px 15px; border-right:1px solid var(--line); display:flex; flex-direction:column; }
+    .section-label { font-size:10px; letter-spacing:.1em; color:var(--muted); margin:0 12px 18px; }
+    .screen-nav { display:flex; flex-direction:column; gap:5px; }
+    .nav-button { background:transparent; border:0; color:#6c756a; padding:13px 12px; border-radius:9px; text-align:left; display:flex; align-items:center; gap:12px; font-size:12px; }
+    .nav-button .num { font:10px ui-monospace,monospace; color:#939c8f; }
+    .nav-button[aria-current="page"] { background:#e8efdf; color:#25351e; font-weight:600; }
+    .nav-button[aria-current="page"] .num { color:#6a8d4c; }
+    .nav-button:hover { background:#edf0e7; }
+    .sidebar-note { margin:auto 12px 0; padding-top:35px; font-size:11px; line-height:1.9; color:#8a9385; }
+    .stage { display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:24px 12px; background:radial-gradient(ellipse at 50% 45%,#e3e9dc 0%,#edf0e7 44%,#f2f4ee 75%); }
+    .stage::before { content:""; width:385px; height:385px; border:1px solid #dbe2d4; border-radius:50%; position:absolute; top:62px; pointer-events:none; }
+    .stage-label { font:9px ui-monospace,monospace; letter-spacing:.15em; color:#939e8a; position:absolute; left:23px; top:20px; }
+    .watch { position:relative; width:292px; height:352px; padding:12px; margin:39px 0 26px; border-radius:66px; background:linear-gradient(130deg,#747975 0%,#252a27 9%,#494e49 26%,#171b19 52%,#4d554d 85%,#838c7f 100%); box-shadow:0 30px 38px -20px #28382175,0 2px 3px #fff8 inset,0 -2px 2px #0008 inset; isolation:isolate; }
+    .watch::before,.watch::after { content:""; position:absolute; z-index:-2; width:174px; height:68px; left:59px; background:repeating-linear-gradient(90deg,#b7c2a5 0,#b7c2a5 3px,#afba9d 3px,#afba9d 5px); box-shadow:inset 0 0 20px #65724f30; }
+    .watch::before { top:-34px; border-radius:30px 30px 0 0; }
+    .watch::after { bottom:-34px; border-radius:0 0 30px 30px; }
+    .crown { position:absolute; width:13px; height:46px; right:-10px; top:86px; background:repeating-linear-gradient(0deg,#646b62 0,#646b62 2px,#989e93 2px,#989e93 3px); border:2px solid #62685e; border-radius:5px; z-index:-1; }
+    .side-button { position:absolute; right:-4px; top:175px; width:5px; height:58px; background:#51594f; border-radius:3px; z-index:-1; }
+    .glass { height:100%; background:#000; border-radius:54px; padding:10px 12px 14px; box-shadow:0 0 0 3px #101410,0 0 0 4px #ffffff13; overflow:hidden; color:#f5f5f7; color-scheme:dark; }
+    .watch-status { height:27px; display:flex; align-items:center; justify-content:space-between; padding:0 13px; font-size:13px; font-weight:600; }
+    .watch-status .app-mark { color:var(--watch-green); display:flex; align-items:center; gap:4px; font-size:11px; }
+    .watch-status svg { width:12px; height:12px; }
+    .watch-scroll { height:calc(100% - 27px); overflow-y:auto; scrollbar-width:none; overscroll-behavior:contain; padding:1px 0 14px; }
+    .watch-scroll::-webkit-scrollbar { display:none; }
+    .watch-scroll:focus-visible { outline-offset:-3px; }
+    .watch-title { display:flex; align-items:center; min-height:27px; margin:1px 4px 8px; gap:5px; }
+    .watch-title h2 { font-size:17px; letter-spacing:-.3px; line-height:1.25; margin:0; font-weight:650; }
+    .back,.icon-button { border:0; background:transparent; color:var(--watch-green); padding:3px; display:grid; place-items:center; flex-shrink:0; }
+    .back { margin-left:-5px; }
+    .back svg { width:17px; height:17px; }
+    .icon-button { margin-left:auto; }
+    .icon-button svg { width:17px; height:17px; }
+    .w-card { background:#1b1c1e; border-radius:17px; padding:12px; margin:0 0 7px; }
+    button.w-card { width:100%; display:block; text-align:left; color:inherit; border:0; }
+    button.w-card:hover,.w-row:hover { background:#27292a; }
+    .w-label { color:#9b9da0; font-size:11px; line-height:1.5; }
+    .w-number { font-size:39px; line-height:1.1; font-weight:650; letter-spacing:-1.8px; font-variant-numeric:tabular-nums; margin:4px 0 3px; }
+    .w-number small { font-size:17px; color:var(--watch-green); margin-left:3px; letter-spacing:-.2px; font-weight:500; }
+    .w-number.green { color:var(--watch-green); }
+    .w-small { font-size:10px; color:#93969a; line-height:1.6; }
+    .w-row { display:flex; align-items:center; gap:7px; width:100%; border:0; border-radius:14px; background:#1b1c1e; color:inherit; padding:12px; margin-bottom:6px; text-align:left; min-height:43px; }
+    .w-row svg { width:15px; height:15px; color:#9da1a5; }
+    .row-text { min-width:0; flex:1; }
+    .row-label { font-size:12px; line-height:1.45; display:block; }
+    .row-detail { font-size:10px; color:#8f949a; display:block; margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .chevron { margin-left:auto; color:#676c71; width:13px!important; height:13px!important; }
+    .row-value { font-size:11px; color:var(--watch-green); }
+    .card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-size:12px; }
+    .card-header svg { width:12px; height:12px; color:#7e848a; }
+    .quota-pair { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .quota-pair strong { display:block; font-size:24px; font-weight:600; letter-spacing:-.8px; margin:2px 0 5px; }
+    .quota-pair .w-label { font-size:10px; }
+    .green-text { color:var(--watch-green); }
+    .blue-text { color:var(--blue); }
+    .orange-text { color:var(--orange); }
+    .bar { height:4px; background:#393c3c; border-radius:10px; overflow:hidden; }
+    .bar span { height:100%; display:block; border-radius:inherit; background:var(--watch-green); }
+    .bar.blue span { background:var(--blue); }
+    .bar.orange span { background:var(--orange); }
+    .watch-footer { text-align:center; color:#777d83; font-size:9px; line-height:1.7; margin:9px 0 0; }
+    .watch-footer .dot { width:4px; height:4px; margin-right:4px; background:#94d86a; vertical-align:middle; }
+    .w-subhead { font-size:10px; color:#8e9399; margin:11px 5px 6px; }
+    .w-empty { color:#8c9296; font-size:11px; line-height:1.8; text-align:center; padding:8px 4px; }
+    .scope-caption { font-size:10px; color:#899098; margin:0 5px 9px; word-break:break-all; line-height:1.6; }
+    .selected { box-shadow:inset 0 0 0 1px #b8f47d55; background:#252d20; }
+    .selected .check { color:var(--watch-green); }
+    .w-alert { background:#32271c; color:#f6c28e; padding:9px 10px; font-size:10px; border-radius:12px; line-height:1.6; margin-bottom:7px; }
+    .w-alert svg { width:12px; height:12px; display:inline-block; vertical-align:-2px; margin-right:3px; }
+    .w-action { border:0; width:100%; padding:12px 10px; background:var(--watch-green); color:#17260c; font-size:12px; font-weight:650; border-radius:22px; margin:4px 0; }
+    .w-action.secondary { background:#222427; color:var(--watch-green); }
+    .metric { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #ffffff0a; font-size:11px; }
+    .metric:last-child { border-bottom:0; padding-bottom:0; }
+    .metric:first-child { padding-top:0; }
+    .metric-label { color:#a0a5ab; display:flex; align-items:center; gap:5px; }
+    .metric-dot { height:5px; width:5px; border-radius:50%; background:var(--blue); }
+    .metric strong { font-weight:500; font-variant-numeric:tabular-nums; }
+    .ring-wrap { display:flex; align-items:center; gap:12px; margin:2px 0 9px; }
+    .ring { --progress:95; --ring-color:var(--blue); flex-shrink:0; width:69px; height:69px; border-radius:50%; background:conic-gradient(var(--ring-color) calc(var(--progress)*1%),#30343a 0); display:grid; place-items:center; }
+    .ring::before { content:""; width:57px; height:57px; border-radius:50%; background:#1b1c1e; grid-area:1/1; }
+    .ring span { grid-area:1/1; font-size:19px; letter-spacing:-.8px; font-weight:600; z-index:1; }
+    .w-input { display:block; width:100%; border:1px solid #3a3d3f; background:#202225; color:#f1f1f2; border-radius:12px; padding:11px 9px; font-size:11px; margin:5px 0 12px; }
+    .w-field { font-size:10px; color:#9da2a8; }
+    .w-success { color:var(--watch-green); font-size:10px; margin:6px 3px; line-height:1.5; }
+    .stage-hint { font-size:10px; color:#8a9580; display:flex; align-items:center; gap:6px; margin-top:19px; z-index:1; }
+    .stage-hint svg { width:13px; height:13px; }
+    .annotation { padding:29px 24px; border-left:1px solid var(--line); display:flex; flex-direction:column; }
+    .annotation .section-label { margin-left:0; }
+    .annotation-number { font:11px ui-monospace,monospace; color:#8ca079; margin-top:5px; }
+    .annotation h2 { font-size:19px; margin:12px 0 10px; font-weight:600; letter-spacing:-.4px; }
+    .annotation p { font-size:12px; color:#7b8574; line-height:1.9; margin:0; }
+    .annotation-list { list-style:none; padding:0; margin:22px 0; }
+    .annotation-list li { position:relative; padding-left:12px; color:#6f7c65; font-size:11px; line-height:1.9; margin-bottom:9px; }
+    .annotation-list li::before { content:""; position:absolute; left:0; top:9px; width:4px; height:4px; border-radius:50%; background:#9eb98a; }
+    .scenario { margin-top:auto; padding-top:20px; border-top:1px solid var(--line); }
+    .scenario-label { font-size:10px; color:#7f8b77; display:block; margin-bottom:10px; }
+    .scenario-options { display:flex; flex-wrap:wrap; gap:5px; }
+    .scenario-button { font-size:10px; padding:7px 8px; border:1px solid var(--line); border-radius:7px; color:#6d7a63; background:transparent; }
+    .scenario-button[aria-pressed="true"] { background:#263122; border-color:#263122; color:#eef6e7; }
+    .story-header { display:flex; align-items:center; justify-content:space-between; margin:34px 0 16px; }
+    .story-header h2 { font-size:14px; margin:0; font-weight:600; }
+    .story-header span { font-size:11px; color:#87917d; }
+    .story-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+    .story-card { min-width:0; padding:15px 12px 0; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#f8f9f5; height:277px; }
+    .story-link { display:flex; align-items:center; justify-content:space-between; width:100%; border:0; background:transparent; color:#5c6854; padding:0 2px 14px; font-size:11px; }
+    .story-link svg { width:13px; height:13px; color:#879d77; }
+    .mini-screen { width:210px; height:280px; max-width:100%; background:#000; color:#f5f5f7; border:5px solid #353c32; border-radius:35px; padding:13px 12px; margin:0 auto; overflow:hidden; pointer-events:none; }
+    .mini-screen .watch-title h2 { font-size:15px; }
+    .mini-screen .watch-title { margin-bottom:9px; }
+    .mini-screen .w-number { font-size:30px; }
+    .mini-screen .w-card { padding:10px; }
+    .mini-screen .w-row { padding:10px; }
+    .page-footer { margin-top:25px; display:flex; justify-content:space-between; gap:15px; font-size:10px; color:#8c9684; line-height:1.7; }
+    .spin { animation:spin 1s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    @media (max-width:1050px) {
+      .page { padding:25px 26px; }
+      .workspace { grid-template-columns:160px minmax(310px,1fr) 200px; }
+      .annotation { padding:27px 18px; }
+      .sidebar { padding:27px 9px; }
+      .story-grid { grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width:760px) {
+      .page { padding:20px 16px 28px; }
+      .masthead { padding-bottom:18px; }
+      .edition { font-size:9px; }
+      .intro { padding:28px 0 22px; display:block; }
+      .intro .demo-badge { margin-top:14px; }
+      .workspace { grid-template-columns:1fr; }
+      .sidebar { padding:12px; border-right:0; border-bottom:1px solid var(--line); }
+      .sidebar .section-label,.sidebar-note { display:none; }
+      .screen-nav { flex-direction:row; overflow-x:auto; gap:3px; }
+      .nav-button { flex-shrink:0; padding:10px; gap:6px; font-size:11px; }
+      .stage { min-height:510px; padding-top:20px; }
+      .stage::before { top:50px; }
+      .annotation { border-left:0; border-top:1px solid var(--line); padding:22px; }
+      .annotation .section-label,.annotation-number,.annotation-list { display:none; }
+      .annotation h2 { font-size:16px; margin:0 0 8px; }
+      .scenario { padding-top:15px; margin-top:17px; }
+      .scenario-label { display:inline-block; margin:0 12px 10px 0; }
+      .scenario-options { display:inline-flex; }
+      .story-header { margin-top:27px; }
+      .story-header span { font-size:10px; }
+      .story-grid { gap:10px; }
+      .story-card { height:238px; padding:13px 7px 0; }
+      .mini-screen { border-radius:27px; padding:11px 8px; }
+      .mini-screen .row-label { font-size:10px; }
+      .mini-screen .w-number { font-size:27px; }
+      .page-footer { flex-direction:column; gap:3px; }
+    }
+    @media (prefers-reduced-motion:reduce) { .spin { animation:none; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="masthead">
+      <div class="brand"><span class="brand-icon" id="brand-icon"></span>Sub2API <span style="color:#8c9684;font-weight:400">/ Watch</span></div>
+      <span class="edition">DESIGN PREVIEW — 001</span>
+    </header>
+    <section class="intro">
+      <div><p class="eyebrow">A LITTLE CLARITY, ON YOUR WRIST</p><h1>把用量，戴在手腕上。</h1><p>剩余多少，今天用了多少。抬腕就能看清。</p></div>
+      <span class="demo-badge"><span class="dot"></span>交互预览 · 示例数据</span>
+    </section>
+
+    <section class="workspace" aria-label="手表应用交互预览">
+      <aside class="sidebar">
+        <p class="section-label">界面导航</p>
+        <nav class="screen-nav" id="screen-nav" aria-label="选择预览界面"></nav>
+        <p class="sidebar-note">点击表内按钮体验交互。<br>向下滚动，查看完整内容。<br>所有数据均为演示示例。</p>
+      </aside>
+      <div class="stage">
+        <span class="stage-label">WATCHOS · INTERACTIVE CANVAS</span>
+        <div class="watch">
+          <div class="crown" aria-hidden="true"></div><div class="side-button" aria-hidden="true"></div>
+          <div class="glass">
+            <div class="watch-status"><span class="app-mark" id="app-mark"></span><span>21:08</span></div>
+            <div class="watch-scroll" id="watch-screen" tabindex="0" aria-label="手表屏幕，可上下滚动"></div>
+          </div>
+        </div>
+        <div class="stage-hint" id="stage-hint"></div>
+      </div>
+      <aside class="annotation">
+        <p class="section-label">这一屏，看什么</p>
+        <div id="screen-notes"></div>
+        <div class="scenario">
+          <span class="scenario-label">切换演示状态</span>
+          <div class="scenario-options" id="scenarios">
+            <button class="scenario-button" data-scenario="normal" aria-pressed="true">正常</button>
+            <button class="scenario-button" data-scenario="low" aria-pressed="false">额度偏低</button>
+            <button class="scenario-button" data-scenario="offline" aria-pressed="false">连接失败</button>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section aria-label="界面速览">
+      <div class="story-header"><h2>从全局，到一个 Key。</h2><span>点击卡片标题，在上方体验</span></div>
+      <div class="story-grid" id="story-grid"></div>
+    </section>
+    <footer class="page-footer"><span>SUB2API WATCH · 个人用量监控</span><span>布局与交互提案 · 未连接真实服务 · 最终尺寸以 Apple Watch 实机为准</span></footer>
+  </main>
+
+  <script>
+    const paths = {
+      activity:'<path d="M3 12h4l3-7 4 14 3-7h4"/>',
+      back:'<path d="m14 5-7 7 7 7"/>',
+      right:'<path d="m9 5 7 7-7 7"/>',
+      arrow:'<path d="M5 12h14m-6-6 6 6-6 6"/>',
+      refresh:'<path d="M20 7v5h-5M4 17v-5h5"/><path d="M6 7a7 7 0 0 1 12-1l2 3M4 15l2 3a7 7 0 0 0 12-1"/>',
+      filter:'<path d="M4 7h16M7 12h10M10 17h4"/>',
+      check:'<path d="m5 12 4 4L19 6"/>',
+      settings:'<path d="M5 7h14M5 17h14"/><circle cx="9" cy="7" r="3" fill="currentColor" stroke="none"/><circle cx="15" cy="17" r="3" fill="currentColor" stroke="none"/>',
+      warn:'<path d="m12 3 10 18H2L12 3Z"/><path d="M12 9v5m0 3v.5"/>',
+      scroll:'<path d="M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4"/>',
+      key:'<circle cx="8" cy="9" r="4"/><path d="m11 12 8 8m-5-5 3-3m0 6 3-3"/>',
+    };
+    const icon = (name, cls='') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.right}</svg>`;
+    const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const people = [
+      { id:1, email:'personal@example.com', keys:[
+        {id:11,name:'温岚',input:865000,output:112948,cache:13800000,requests:139},
+        {id:9,name:'zy',input:0,output:0,cache:0,requests:0},
+        {id:8,name:'mine',input:420000,output:60591,cache:10340000,requests:163},
+        {id:5,name:'qq专属',input:610000,output:84964,cache:11030000,requests:107},
+      ]},
+      { id:7, email:'team@example.com', keys:[
+        {id:14,name:'mobile',input:0,output:0,cache:0,requests:0},
+        {id:12,name:'DevinExtra',input:540755,output:45255,cache:10354176,requests:117},
+      ]},
+    ];
+    const state = {screen:'overview',userId:null,keyId:null,scenario:'normal',refreshing:false,updated:'刚刚更新',url:'https://watch.example.com',saved:false};
+    const screens = [
+      {id:'overview',label:'总览',title:'抬腕，先看重点',description:'今日用量和账号余额放在同一屏，减少来回查找。',points:['大数字展示当前范围的今日 token','5 小时与 7 天额度分别显示','点击卡片，进入对应详情']},
+      {id:'accounts',label:'账号池',title:'每个账号，分别看',description:'额度属于上游账号。切换用户或 Key，不会改变这里的窗口余额。',points:['展示各账号的剩余百分比','点击账号，查看窗口重置时间','低额度使用暖橙色提醒']},
+      {id:'usage',label:'今日用量',title:'看清每一部分用量',description:'总量包含输入、输出和缓存；显示请求数，方便快速判断使用情况。',points:['筛选范围始终可见','按北京时间零点开始统计','没有用量时显示 0，不是错误']},
+      {id:'users',label:'筛选范围',title:'先选邮箱，再选 Key',description:'使用绑定邮箱区分用户，使用 Key 名称区分调用来源。',points:['支持全站、单用户和单个 Key','选择后直接回到今日用量','返回总览时沿用当前选择']},
+      {id:'settings',label:'连接设置',title:'连接你自己的服务',description:'填写服务地址与专用查询密钥。配置完成后，日常只需要抬腕查看。',points:['密钥输入默认隐藏','日常在打开应用时刷新','演示配置只在当前页面内生效']},
+    ];
+    const screen = document.querySelector('#watch-screen');
+    const person = () => people.find(p=>p.id===state.userId);
+    const selectedKey = () => person()?.keys.find(k=>k.id===state.keyId);
+    function stats() {
+      const keys=selectedKey()?[selectedKey()]:person()?person().keys:people.flatMap(p=>p.keys);
+      const sum=keys.reduce((a,k)=>({input:a.input+k.input,output:a.output+k.output,cache:a.cache+k.cache,requests:a.requests+k.requests}),{input:0,output:0,cache:0,requests:0});
+      return {...sum,total:sum.input+sum.output+sum.cache};
+    }
+    function compact(n) { return n>=1e6?`${(n/1e6).toFixed(2)}M`:n>=1e3?`${(n/1e3).toFixed(1)}K`:String(n); }
+    function number(n) { return n.toLocaleString('en-US'); }
+    function bigNumber(n) { return n>=1e6?`${(n/1e6).toFixed(2)}<small>M</small>`:n>=1e3?`${(n/1e3).toFixed(1)}<small>K</small>`:`${n}<small>tokens</small>`; }
+    const quota = () => state.scenario==='low'?{five:8,seven:17}:{five:100,seven:95};
+    const scopeName = () => selectedKey()?.name || (person()?'全部 Key':'全部用户');
+    const caption = () => person()?`${person().email} · ${selectedKey()?.name || '全部 Key'}`:'全部用户 · 全部 Key';
+    function title(text,back,refresh=false) {
+      return `<div class="watch-title">${back?`<button class="back" data-go="${back}" aria-label="返回">${icon('back')}</button>`:''}<h2>${text}</h2>${refresh?`<button class="icon-button" data-action="refresh" aria-label="刷新数据" ${state.refreshing?'disabled':''}>${icon('refresh',state.refreshing?'spin':'')}</button>`:''}</div>`;
+    }
+    function footer() { return `<div class="watch-footer"><span class="dot"></span>${state.refreshing?'正在刷新…':state.scenario==='offline'?'上次更新于 20:58':state.updated}</div>`; }
+    function warning() { return state.scenario==='offline'?`<div class="w-alert">${icon('warn')}暂时无法连接，显示上次数据</div>`:''; }
+    function row({label,detail='',go='',action='',value='',selected=false,symbol=''}) {
+      return `<button class="w-row ${selected?'selected':''}" ${go?`data-go="${go}"`:''} ${action?`data-action="${action}"`:''}>${symbol?icon(symbol):''}<span class="row-text"><span class="row-label">${escape(label)}</span>${detail?`<span class="row-detail">${escape(detail)}</span>`:''}</span>${value?`<span class="row-value">${escape(value)}</span>`:''}${selected?icon('check','check'):icon('right','chevron')}</button>`;
+    }
+    function quotaPair() {
+      const q=quota(),low=state.scenario==='low';
+      return `<div class="quota-pair"><div><span class="w-label">5 小时剩余</span><strong class="${low?'orange':'green'}-text">${q.five}%</strong><div class="bar ${low?'orange':''}"><span style="width:${q.five}%"></span></div></div><div><span class="w-label">7 天剩余</span><strong class="${low?'orange':'blue'}-text">${q.seven}%</strong><div class="bar ${low?'orange':'blue'}"><span style="width:${q.seven}%"></span></div></div></div>`;
+    }
+    function overview() {
+      const s=stats();
+      return title('总览',null,true)+warning()+
+        `<button class="w-card" data-go="usage"><div class="w-label">今日 token · ${escape(scopeName())}</div><div class="w-number green">${bigNumber(s.total)}</div><div class="w-small">${number(s.requests)} 次请求 · 含缓存用量</div></button>`+
+        `<button class="w-card" data-go="accounts"><div class="card-header"><span>账号池 <span class="w-small">· 1 个账号</span></span>${icon('right')}</div>${quotaPair()}</button>`+
+        row({label:caption(),go:'users',symbol:'filter'})+row({label:'连接设置',go:'settings',symbol:'settings'})+footer();
+    }
+    function accounts() {
+      return title('账号池','overview',true)+warning()+`<div class="scope-caption">1 个 OpenAI 账号</div>`+
+        `<button class="w-card" data-go="account"><div class="card-header"><span>OpenAI 主账号</span>${icon('right')}</div><div class="w-small" style="margin:-4px 0 11px">${state.scenario==='offline'?'旧快照':state.scenario==='low'?'额度偏低':'正常可用'}</div>${quotaPair()}</button>`+
+        `<div class="w-empty">点击账号查看窗口详情</div>`+footer();
+    }
+    function account() {
+      const q=quota(),low=state.scenario==='low';
+      const window=(label,value,color,reset)=>`<div class="w-card"><div class="ring-wrap"><div class="ring" style="--progress:${value};--ring-color:${color}"><span>${value}%</span></div><div><div class="row-label">${label}窗口</div><div class="w-small">剩余额度</div></div></div><div class="w-small">${reset}</div></div>`;
+      return title('账号详情','accounts')+`<div class="scope-caption">OpenAI 主账号</div>`+warning()+
+        window('5 小时',q.five,low?'var(--orange)':'var(--watch-green)',low?'预计 23:40 重置':'暂无有效重置时间')+
+        window('7 天',q.seven,low?'var(--orange)':'var(--blue)','11 月 4 日 15:08 重置')+footer();
+    }
+    function usage() {
+      const s=stats();
+      return title('今日用量','overview',true)+warning()+
+        row({label:scopeName(),detail:person()?.email || '全站统计',go:'users',symbol:'filter'})+
+        `<div class="w-card"><div class="w-label">今日累计 token</div><div class="w-number green">${bigNumber(s.total)}</div><div class="w-small">${number(s.total)} tokens</div></div>`+
+        `<div class="w-card"><div class="metric"><span class="metric-label"><i class="metric-dot"></i>输入</span><strong>${compact(s.input)}</strong></div><div class="metric"><span class="metric-label"><i class="metric-dot" style="background:var(--watch-green)"></i>输出</span><strong>${compact(s.output)}</strong></div><div class="metric"><span class="metric-label"><i class="metric-dot" style="background:#b5a1d5"></i>缓存读取</span><strong>${compact(s.cache)}</strong></div><div class="metric"><span class="metric-label">缓存创建</span><strong>0</strong></div><div class="metric"><span class="metric-label">请求数</span><strong>${s.requests}</strong></div></div>`+
+        (s.total===0?'<div class="w-empty">这个范围今天还没有用量</div>':'')+
+        `<div class="watch-footer">北京时间 00:00 至今</div>`+footer();
+    }
+    function users() {
+      return title('选择用户','usage')+`<div class="scope-caption">按绑定邮箱选择</div>`+
+        row({label:'全部用户',detail:'查看全站今日用量',action:'all-users',selected:state.userId===null})+
+        people.map(p=>row({label:p.email,detail:`${p.keys.length} 个 API Key`,action:`user:${p.id}`,selected:state.userId===p.id})).join('');
+    }
+    function keys() {
+      const p=person() || people[0];
+      return title('选择 Key','users')+`<div class="scope-caption">${escape(p.email)}</div>`+
+        row({label:'全部 Key',detail:'该用户的今日合计',action:'all-keys',selected:state.keyId===null})+
+        p.keys.map(k=>row({label:k.name,detail:`今日 ${compact(k.input+k.output+k.cache)} tokens`,action:`key:${k.id}`,selected:state.keyId===k.id})).join('');
+    }
+    function settings() {
+      return title('连接设置','overview')+
+        `<form id="connection-form"><label class="w-field">服务地址<input class="w-input" name="url" type="url" value="${escape(state.url)}" placeholder="https://watch.example.com" required autocomplete="off" spellcheck="false"></label><label class="w-field">访问密钥<input class="w-input" name="key" type="password" placeholder="输入专用查询密钥" required autocomplete="off"></label><button class="w-action" type="submit">保存配置</button><div class="w-success" role="status">${state.saved?'演示配置已保存':''}</div></form><div class="watch-footer">打开应用时自动刷新</div>`;
+    }
+    const renderers={overview,accounts,account,usage,users,keys,settings};
+    function render(resetScroll=true) {
+      const top=screen.scrollTop;
+      screen.innerHTML=renderers[state.screen]();
+      screen.scrollTop=resetScroll?0:top;
+      const parent=state.screen==='account'?'accounts':state.screen==='keys'?'users':state.screen;
+      document.querySelector('#screen-nav').innerHTML=screens.map((s,i)=>`<button class="nav-button" data-go="${s.id}" ${parent===s.id?'aria-current="page"':''}><span class="num">0${i+1}</span>${s.label}</button>`).join('');
+      const info=screens.find(s=>s.id===parent);
+      document.querySelector('#screen-notes').innerHTML=`<div class="annotation-number">0${screens.indexOf(info)+1} / 05</div><h2>${info.title}</h2><p>${info.description}</p><ul class="annotation-list">${info.points.map(p=>`<li>${p}</li>`).join('')}</ul>`;
+      document.querySelectorAll('[data-scenario]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.scenario===state.scenario)));
+      document.querySelector('#story-grid').innerHTML=[['accounts','01 · 账号窗口'],['users','02 · 选择邮箱'],['keys','03 · 选择 Key'],['usage','04 · 今日明细']].map(([id,label])=>`<article class="story-card"><button class="story-link" data-go="${id}">${label}${icon('arrow')}</button><div class="mini-screen" inert aria-hidden="true">${renderers[id]()}</div></article>`).join('');
+    }
+    function go(id) {
+      if(id==='keys'&&!person()) { state.userId=people[0].id; state.keyId=null; }
+      state.screen=id; render();
+    }
+    document.addEventListener('click',event=>{
+      const button=event.target.closest('button');
+      if(!button)return;
+      if(button.dataset.go) {
+        go(button.dataset.go);
+        if(button.classList.contains('story-link'))document.querySelector('.workspace').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
+      }
+      if(button.dataset.scenario) {
+        state.scenario=button.dataset.scenario;
+        if(state.scenario==='low')state.screen='accounts';
+        if(state.scenario==='offline'&&!['overview','usage','accounts','account'].includes(state.screen))state.screen='overview';
+        render(false);
+      }
+      const action=button.dataset.action;
+      if(action==='all-users'){state.userId=null;state.keyId=null;go('usage');}
+      if(action?.startsWith('user:')){const userId=Number(action.split(':')[1]);if(userId!==state.userId)state.keyId=null;state.userId=userId;go('keys');}
+      if(action==='all-keys'){state.keyId=null;go('usage');}
+      if(action?.startsWith('key:')){state.keyId=Number(action.split(':')[1]);go('usage');}
+      if(action==='refresh'&&!state.refreshing){
+        state.refreshing=true;render(false);
+        setTimeout(()=>{state.refreshing=false;if(state.scenario!=='offline')state.updated='刚刚更新';render(false);},850);
+      }
+    });
+    screen.addEventListener('submit',event=>{
+      event.preventDefault();
+      const form=event.target;
+      const url=new URL(form.elements.url.value);
+      if(!['https:','http:'].includes(url.protocol)){form.elements.url.setCustomValidity('请输入 http 或 https 服务地址');form.elements.url.reportValidity();return;}
+      state.url=form.elements.url.value;state.saved=true;
+      form.elements.key.value='';
+      form.querySelector('[role="status"]').textContent='演示配置已保存';
+    });
+    screen.addEventListener('input',event=>{if(event.target.name==='url')event.target.setCustomValidity('');});
+    document.querySelector('#brand-icon').innerHTML=icon('activity');
+    document.querySelector('#app-mark').innerHTML=icon('activity')+' WATCH';
+    document.querySelector('#stage-hint').innerHTML=icon('scroll')+'可点击 · 可滚动 · 可切换状态';
+    render();
+  </script>
+</body>
+</html>
