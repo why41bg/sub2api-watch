@@ -11,9 +11,11 @@ struct SettingsView: View {
     var body: some View {
         WatchPage {
             Text("服务地址").font(.caption2).foregroundStyle(.secondary)
-            TextField("https://watch.example.com", text: $address)
+            TextField("IP:端口或 https://域名", text: $address)
                 .textContentType(.URL)
                 .autocorrectionDisabled()
+            Text("IP 地址默认使用 HTTP，域名默认使用 HTTPS。")
+                .font(.system(size: 10)).foregroundStyle(.secondary)
             Text("访问密钥").font(.caption2).foregroundStyle(.secondary)
             SecureField(store.isConfigured ? "留空保持现有密钥" : "输入专用查询密钥", text: $key)
             if let error { Notice(text: error) }

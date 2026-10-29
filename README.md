@@ -47,7 +47,7 @@ npm run build
 npm start
 ```
 
-默认监听 `127.0.0.1:8787`，可通过 `HOST`、`PORT` 修改。远程访问时通过 HTTPS 反向代理连接。
+默认监听 `127.0.0.1:8787`，可通过 `HOST`、`PORT` 修改。设置 `HOST=0.0.0.0` 后可用 `http://服务器IP:端口` 直连，也支持 HTTPS 反向代理。
 
 请求携带 `Authorization: Bearer <WATCH_API_KEY>`：
 
@@ -60,4 +60,4 @@ npm start
 
 手表端需要 Mac、Xcode 15 或更新版本、watchOS 10 或更新版本。打开 `watch/Sub2APIWatch.xcodeproj`，选择 `Sub2APIWatch` Scheme 和 Apple Watch 模拟器运行；安装真机前，在 Signing & Capabilities 中选择自己的 Team，并修改 Bundle Identifier 为唯一标识。
 
-在 App 的「连接设置」中填写手表可访问的 HTTPS 服务地址和 `WATCH_API_KEY`，密钥保存在 Keychain。Linux 上无法进行 Xcode 编译与实机验证；`watch/demo.html` 保留作界面对照。
+在 App 的「连接设置」中填写服务地址和 `WATCH_API_KEY`，密钥保存在 Keychain。支持 HTTP、HTTPS，省略协议的 IP 地址（如 `192.168.1.100:23333`）自动使用 HTTP，域名默认使用 HTTPS；IPv6 地址需加方括号，如 `[2001:db8::1]:23333`。Linux 上无法进行 Xcode 编译与实机验证；`watch/demo.html` 保留作界面对照。

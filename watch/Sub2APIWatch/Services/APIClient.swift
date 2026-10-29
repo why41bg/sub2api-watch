@@ -1,4 +1,5 @@
 import Foundation
+import Darwin
 
 enum BridgeError: LocalizedError {
     case configuration, address, keyRequired, unauthorized, missing, unavailable, invalidResponse
@@ -6,7 +7,7 @@ enum BridgeError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .configuration: return "请先设置服务地址和访问密钥。"
-        case .address: return "请输入有效的 HTTPS 服务地址。"
+        case .address: return "请输入有效的 IP:端口、HTTP 或 HTTPS 地址。"
         case .keyRequired: return "请输入查询服务的访问密钥。"
         case .unauthorized: return "访问密钥无效，请检查连接设置。"
         case .missing: return "用户或 Key 已不存在，请重新选择。"
@@ -40,13 +41,29 @@ struct APIClient {
 
     static func address(_ text: String) throws -> URL {
         let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        let hasScheme = text.contains("://")
         guard !text.isEmpty,
-              let url = URL(string: text.contains("://") ? text : "https://" + text),
-              url.scheme?.lowercased() == "https", let host = url.host, !host.isEmpty,
-              url.user == nil, url.password == nil, url.query == nil, url.fragment == nil else {
+              text.rangeOfCharacter(from: .whitespacesAndNewlines) == nil,
+              var components = URLComponents(string: hasScheme ? text : "https://" + text),
+              let scheme = components.scheme?.lowercased(), ["http", "https"].contains(scheme),
+              let host = components.host, !host.isEmpty,
+              components.user == nil, components.password == nil,
+              components.query == nil, components.fragment == nil,
+              components.port.map({ (1...65535).contains($0) }) ?? true else {
             throw BridgeError.address
         }
+        components.scheme = !hasScheme && isIPAddress(host) ? "http" : scheme
+        guard let url = components.url else { throw BridgeError.address }
         return url
+    }
+
+    private static func isIPAddress(_ host: String) -> Bool {
+        let host = host.trimmingCharacters(in: CharacterSet(charactersIn: "[]"))
+        var ipv4 = in_addr()
+        var ipv6 = in6_addr()
+        return host.withCString {
+            inet_pton(AF_INET, $0, &ipv4) == 1 || inet_pton(AF_INET6, $0, &ipv6) == 1
+        }
     }
 
     private func get<T: Decodable>(_ path: String, query: [URLQueryItem] = []) async throws -> T {
